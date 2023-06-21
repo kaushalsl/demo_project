@@ -1,0 +1,5 @@
+<div>
+  <button (click)="onClick($event)" [ngClass]="'btn btn-' + props['btnType']" [type]="props.type">
+    {{ props['text'] }}
+  </button>
+</div>

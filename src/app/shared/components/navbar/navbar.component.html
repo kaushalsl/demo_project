@@ -1,0 +1,69 @@
+<nav class="navbar navbar-expand-lg bg-light fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand">Ngx Formly</a>
+    <button aria-controls="navbarToggleDemo01" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler p-1 ms-auto"
+            data-bs-target="#navbarTogglerDemo01" data-bs-toggle="collapse" type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <button class="btn btn-danger btn-sm rounded ms-1 order-lg-last">
+      Text 1
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item cursor-pointer" routerLink="/form">
+          <a aria-current="page" class="nav-link" routerLinkActive="active">Forms</a>
+        </li>
+
+        <li (click)="emitLayoutTitleFun()" class="nav-item cursor-pointer" routerLink="/signals">
+          <a aria-current="page" class="nav-link" routerLinkActive="active">Signal</a>
+        </li>
+
+        <li class="nav-item cursor-pointer" routerLink="/component-binding/1">
+          <a aria-current="page" class="nav-link" routerLinkActive="active">Comp-Binding</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/rxjs" routerLinkActive="active">RXJS</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/rxjs-operator" routerLinkActive="active">RXJS-Opt.</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/zone" routerLinkActive="active">Zone</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/typescript" routerLinkActive="active">Type-Script</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/lodashjs" routerLinkActive="active">Loadsh</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/calender" routerLinkActive="active">Calendar</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/medicine" routerLinkActive="active">Medicine</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/regular-expression" routerLinkActive="active">Reg. Exp.</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/resolverTest" routerLinkActive="active">Resolver </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/image-optimization" routerLinkActive="active">Img Opt. </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

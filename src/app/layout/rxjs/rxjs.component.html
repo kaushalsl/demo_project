@@ -1,0 +1,69 @@
+<div class="container-fluid">
+  <div class="mb-1 row">
+    <label class="col-2">Search</label>
+    <div class="col-3">
+      <input #searchForm class="form-control form-control-sm" name="searchForm" placeholder="enter search value...."
+             required type="text">
+    </div>
+  </div>
+
+  <div class="my-2 row">
+    <label class="col-2">&nbsp;</label>
+    <div class="col-5">
+      <button #btn class="btn btn-primary btn-sm">ExhaustMap</button>
+      <button (click)="btnGetCall.next(undefined)" class="btn btn-primary btn-sm ms-2">ExhaustMap Get Call</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6 col-md-6 col-lg-6 col-12">
+      <div class="card h-100">
+        <div class="card-header">Pass data from parent to child</div>
+        <div class="card-body">
+          <h3>Pass data from parent to child</h3>
+          <button (click)="increment()" class="btn btn-success btn-sm">Increment</button>
+          <button (click)="decrement()" class="btn btn-danger btn-sm ms-2">Decrement</button>
+          <div class="mt-2 fs-5">Get Child Value is: {{childCmpValue}}</div>
+
+          <span>Emit Data from Parent To Child:- </span>
+          <button (click)="updateVal()" class="btn btn-secondary btn-sm ms-2">Emit</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-md-6 col-lg-6 col-12">
+      <app-child #child (countChanged)="countChangedHandler($event)" [sendChild]="title"></app-child>
+    </div>
+  </div>
+
+  <!--Emmit data using ng templateOutlet-->
+  <!--<ng-container [ngComponentOutlet]="child1"></ng-container>-->
+  <div class="my-2 row">
+    <label class="col-2">
+      <input (ngModelChange)="ngModelChangeFun($event)" [(ngModel)]="name" class="form-control form-control-sm"
+             name="searchForm" placeholder="enter name"
+             required type="text">
+    </label>
+    <div class="col-5">
+      <button (click)="saveData()" class="btn btn-primary btn-sm">Click to save</button>
+    </div>
+  </div>
+</div>
+
+
+<app-add></app-add>
+
+<div class="container-fluid mt-2">
+  <div class="row row-cols-1 row-cols-md-4 g-4">
+    <div *ngFor="let book of booksList |async" class="col">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">{{ book.id }}</h5>
+          <p class="card-text">{{ book.title }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

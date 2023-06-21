@@ -1,0 +1,40 @@
+/*div {
+  font-size: calc(15px + 1vw);
+}*/
+
+.main-heading {
+  //color: red;
+}
+
+div {
+  //color: blue;
+}
+
+
+/*
+.banner {
+  position: absolute;
+  left: 40px;
+  width: calc(100% - 80px);
+  border: solid black 1px;
+  box-shadow: 1px 2px;
+  background-color: yellow;
+  padding: 6px;
+  text-align: center;
+  box-sizing: border-box;
+}
+*/
+
+:host {
+  font-family: Arial;
+}
+
+.tabs-selection {
+  background-color: #ddd;
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: row;
+  padding-left: 16px;
+  padding-right: 16px;
+  width: 100%;
+}

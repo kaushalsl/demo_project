@@ -1,0 +1,56 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header fw-bold">
+      String Regular Expression
+    </div>
+    <div class="card-body">
+      <div>Original String: {{string}}</div>
+      <div>Convert String: {{addSpaceAlphanumeric}}</div>
+      <div class="banner main-heading">This is a banner!</div>
+    </div>
+  </div>
+
+  <div class="card mt-2">
+    <div class="card-header fw-bold">
+      Dynamic Load css
+    </div>
+    <div class="card-body">
+      <div class="app-title">Load Dynamic css load</div>
+      <button (click)="loadStyle('client-a.css')" class="btn btn-primary btn-sm">Client A theme</button>
+      <button (click)="loadStyle('client-b.css')" class="btn btn-danger btn-sm ms-2">Client B theme</button>
+    </div>
+  </div>
+
+  <div class="card mt-2">
+    <div class="card-header fw-bold">
+      Write diff type of ngfor loop
+    </div>
+    <div class="card-body">
+      <app-for-example
+        *ngFor="let episode of episodes; let i = index; let isOdd = odd"
+        [episode]="episode"
+        [ngClass]="{ odd: isOdd }">
+        {{i + 1}}. {{episode.title}}
+      </app-for-example>
+
+      <hr/>
+
+      <h5>
+        [ngForOf]="episodes" let-episode let-i="index" let-isOdd="odd" ngFor
+      </h5>
+
+      <ng-template [ngForOf]="episodes" let-episode let-i="index" let-isOdd="odd" ngFor>
+        <app-for-example [episode]="episode" [ngClass]="{ odd: isOdd }">
+          {{i + 1}}. {{episode.title}}
+        </app-for-example>
+      </ng-template>
+
+      <div class="tabs-selection">
+        <app-tab (click)="setTab(1)" [active]="isSelected(1)">Tab 1</app-tab>
+        <app-tab (click)="setTab(2)" [active]="isSelected(2)">Tab 2</app-tab>
+        <app-tab (click)="setTab(3)" [active]="isSelected(3)">Tab 3</app-tab>
+      </div>
+    </div>
+  </div>
+</div>
+

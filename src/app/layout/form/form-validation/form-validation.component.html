@@ -1,0 +1,290 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-end mb-2">
+      <button (click)="_appService.gotoBack()" class="btn btn-danger btn-sm">
+        Back
+      </button>
+    </div>
+    
+    <div class="col-sm-6 col-md-6 col-lg-6 col-12">
+      <div class="card">
+        <div class="card-header">
+          Reactive Form Module
+        </div>
+        <div class="card-body">
+          <form (submit)="submit(validationForm.value)" [formGroup]="validationForm">
+            <div class="mb-2 row">
+              <label class="col-sm-3 col-md-3 col-lg-3">Name</label>
+              <div class="col-sm-8 col-md-8 col-lg-8">
+                <input
+                  [ngClass]="{ 'is-invalid': f['name'].invalid && (f['name'].dirty || f['name'].touched), 'is-valid':f['name'].valid }"
+                  class="form-control form-control-sm" formControlName="name" placeholder="Enter Name"
+                  type="text">
+                <ng-container *ngFor="let validation of validationMessage.name">
+                  <div *ngIf="f['name'].hasError(validation.type) && (f['name']['dirty'] || f['name']['touched'])"
+                       class="invalid-feedback">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+
+            <div class="mb-2 row">
+              <label class="col-sm-3 col-md-3 col-lg-3">Mobile Number</label>
+              <div class="col-sm-8 col-md-8 col-lg-8">
+                <input class="form-control form-control-sm" formControlName="mobile" maxlength="10"
+                       placeholder="Enter Mobile Number"
+                       type="text">
+                <div class="error-feedback">
+                  <ng-container *ngFor="let validation of validationMessage.mobile">
+                    <div
+                      *ngIf="f['mobile'].hasError(validation.type) && (f['mobile']['dirty'] || f['mobile']['touched'])">
+                      {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-2 row">
+              <label class="col-sm-3 col-md-3 col-lg-3">Emil Address</label>
+              <div class="col-sm-8 col-md-8 col-lg-8">
+                <input class="form-control form-control-sm" formControlName="email" placeholder="Enter Emial Address"
+                       type="text">
+                <div class="error-feedback">
+                  <ng-container *ngFor="let validation of validationMessage.email">
+                    <div
+                      *ngIf="f['email'].hasError(validation.type) && (f['email']['dirty'] || f['email']['touched'])">
+                      {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-2 row">
+              <label class="col-sm-3 col-md-3 col-lg-3">Gender</label>
+              <div class="col-sm-8 col-md-8 col-lg-8">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input [value]="'m'" class="form-check-input" formControlName="gender" type="radio">Male
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input [value]="'f'" class="form-check-input" formControlName="gender" type="radio"> Female
+                  </label>
+                </div>
+                <div class="error-feedback">
+                  <ng-container *ngFor="let validation of validationMessage.selection">
+                    <div
+                      *ngIf="f['gender'].hasError(validation.type) && (f['gender']['dirty'] || f['gender']['touched'])">
+                      {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+
+            <div formGroupName="address">
+              <div class="mb-2 row">
+                <label class="col-sm-3 col-md-3 col-lg-3">Street</label>
+                <div class="col-sm-8 col-md-8 col-lg-8">
+                  <input class="form-control form-control-sm" formControlName="street" placeholder="Enter Street"
+                         type="text">
+                  <div class="error-feedback">
+                    <ng-container *ngFor="let validation of validationMessage.default">
+                      <div
+                        *ngIf="f1('address','street').hasError(validation.type)&& (f1('address','street')['dirty'] || f1('address','street')['touched'])">
+                        {{ validation.message }}
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-2 row">
+              <label class="col-sm-3 col-md-3 col-lg-3">Country</label>
+              <div class="col-sm-8 col-md-8 col-lg-8">
+                <select class="form-select form-select-sm" formControlName="country">
+                  <option disabled selected value="">Select Country</option>
+                  <option *ngFor="let c of countryList" [ngValue]="c.id">
+                    {{c.name}}
+                  </option>
+                </select>
+                <div class="error-feedback">
+                  <ng-container *ngFor="let validation of validationMessage.selection">
+                    <div
+                      *ngIf="f['country'].hasError(validation.type) && (f['country']['dirty'] || f['country']['touched'])">
+                      {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-2 row">
+              <label class="col-sm-3 col-md-3 col-lg-3">Password</label>
+              <div class="col-sm-8 col-md-8 col-lg-8">
+                <input class="form-control form-control-sm" formControlName="password" placeholder="Enter Name"
+                       type="password">
+                <div class="error-feedback">
+                  <ng-container *ngFor="let validation of validationMessage.password">
+                    <div
+                      *ngIf="f['password'].hasError(validation.type) && (f['password']['dirty'] || f['password']['touched'])">
+                      {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-2 row">
+              <label class="col-sm-3 col-md-3 col-lg-3">Confirm Password</label>
+              <div class="col-sm-8 col-md-8 col-lg-8">
+                <input class="form-control form-control-sm" formControlName="confirmPassword" placeholder="Enter Name"
+                       type="password">
+                <div class="error-feedback">
+                  <ng-container *ngFor="let validation of validationMessage.confirmPassword">
+                    <div
+                      *ngIf="f['confirmPassword'].hasError(validation.type) && (f['confirmPassword']['dirty'] || f['confirmPassword']['touched'])">
+                      {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-2 row">
+              <label class="col-sm-3 col-md-3 col-lg-3">&nbsp;</label>
+              <div class="col-sm-8 col-md-8 col-lg-8">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" formControlName="acceptTerms" type="checkbox"> I accept term and
+                    condition</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-2 row">
+              <label class="col-sm-3 col-md-3 col-lg-3">&nbsp;</label>
+              <div class="col-sm-8 col-md-8 col-lg-8">
+                <button [disabled]="validationForm.invalid" class="btn btn-primary btn-sm" type="submit">Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-6 col-12">
+      <div class="card">
+        <div class="card-header">
+          Template Driven Form validation
+        </div>
+        <div class="card-body">
+          <form #testForm1=ngForm (submit)="submit(testForm1.value)" [appMatchPassword]="['password','confirmPassword']"
+                novalidate>
+            <div class="mb-2 row">
+              <label class="col-sm-4 col-md-4 col-lg-4">Name</label>
+              <div class="col-sm-8 col-md-8 col-lg-8">
+                <input #name="ngModel"
+                       [ngClass]="{'is-invalid': name.invalid && (name.dirty || name.touched),'is-valid': name.valid}"
+                       appValidateUserName class="form-control form-control-sm"
+                       name="name"
+                       ngModel placeholder="Enter Name"
+                       type="text">
+                <ng-container *ngFor="let validation of validationMessage.name">
+                  <div *ngIf="name.hasError(validation.type)"
+                       class="invalid-feedback">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+
+            <div class="mb-2 row">
+              <label class="col-sm-4 col-md-4 col-lg-4">Mobile Number</label>
+              <div class="col-sm-8 col-md-8 col-lg-8">
+                <input #mobile="ngModel" [pattern]="patternValidate.mobile"
+                       class="form-control form-control-sm" maxlength="10"
+                       minlength="10"
+                       name="mobile" ngModel placeholder="Enter Mobile Number" required type="text">
+                <div class="error-feedback">
+                  <ng-container *ngFor="let validation of validationMessage.mobile">
+                    <div
+                      *ngIf="mobile.hasError(validation.type) && (mobile.dirty || mobile.touched)">
+                      {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-2 row">
+              <label class="col-sm-4 col-md-4 col-lg-4">Email Address</label>
+              <div class="col-sm-8 col-md-8 col-lg-8">
+                <input #email="ngModel" [pattern]="patternValidate.email"
+                       class="form-control form-control-sm" name="email"
+                       ngModel
+                       placeholder="Enter Email Address" required type="text">
+                <div class="error-feedback">
+                  <ng-container *ngFor="let validation of validationMessage.email">
+                    <div
+                      *ngIf="email.hasError(validation.type) && (email.dirty || email.touched)">
+                      {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-2 row">
+              <label class="col-sm-4 col-md-4 col-lg-4">Password</label>
+              <div class="col-sm-8 col-md-8 col-lg-8">
+                <input #password="ngModel" class="form-control form-control-sm" name="password"
+                       ngModel
+                       placeholder="Enter Password" required type="text">
+                <div class="error-feedback">
+                  <ng-container *ngFor="let validation of validationMessage.password">
+                    <div
+                      *ngIf="password.hasError(validation.type) && (password.dirty || password.touched)">
+                      {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-2 row">
+              <label class="col-sm-4 col-md-4 col-lg-4">Confirm Password</label>
+              <div class="col-sm-8 col-md-8 col-lg-8">
+                <input #confirmPassword="ngModel" class="form-control form-control-sm" name="confirmPassword"
+                       ngModel
+                       placeholder="Enter Confirm Password" required type="text">
+                <div class="error-feedback">
+                  <ng-container *ngFor="let validation of validationMessage.confirmPassword">
+                    <div
+                      *ngIf="confirmPassword.hasError(validation.type) && (confirmPassword.dirty || confirmPassword.touched)">
+                      {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="mb-2 row">
+              <label class="col-sm-4 col-md-4 col-lg-4">&nbsp;</label>
+              <div class="col-sm-8 col-md-8 col-lg-8">
+                <button [disabled]="testForm1.invalid" class="btn btn-primary btn-sm" type="submit">
+                  Submit
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

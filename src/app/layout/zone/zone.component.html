@@ -1,0 +1,37 @@
+<div class="container-fluid">
+  <button (click)="updateData()" class="btn btn-primary btn-sm">Update</button>
+
+  <form [formGroup]="courseForm">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Course</th>
+        <th></th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let user of userInfo; let i = index;" formArrayName="courseArray">
+        <td>{{i + 1}}</td>
+        <td>{{user.name}}</td>
+        <td>
+          <select [formControlName]="i" class="form-select form-select-sm">
+            <!--<option value="" selected disabled>Select Course</option>-->
+            <option *ngFor="let course of courseInfo" [ngValue]="course.id">
+              {{course.name}} userCourse {{user.courseId}} courseInfo {{course.id}}
+            </option>
+          </select>
+        </td>
+        <td>
+          <button (click)="changeCourseStatus(i)" class="btn btn-primary btn-sm" type="button">Update Course</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </form>
+</div>
+
+
+

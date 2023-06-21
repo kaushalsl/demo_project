@@ -1,0 +1,36 @@
+<div class="container-fluid">
+  <h5>Repeat Array string : {{repeatArray}}</h5>
+
+  <div class="my-2">
+    <button class="btn btn-outline-secondary me-2" ngbTooltip="Tooltip on top" placement="top" type="button">
+      Tooltip on top
+    </button>
+    <button class="btn btn-outline-secondary me-2" ngbTooltip="Tooltip on right" placement="end" type="button">
+      Tooltip on right
+    </button>
+    <button class="btn btn-outline-secondary me-2" ngbTooltip="Tooltip on bottom" placement="bottom" type="button">
+      Tooltip on bottom
+    </button>
+    <button class="btn btn-outline-secondary me-2" ngbTooltip="Tooltip on left" placement="start" type="button">
+      Tooltip on left
+    </button>
+  </div>
+
+
+  <div class="input-group">
+    <input #d="ngbDatepicker" [(ngModel)]="model"
+           class="form-control" name="dp" ngbDatepicker placeholder="yyyy-mm-dd">
+    <button (click)="d.toggle()" class="btn btn-outline-secondary" type="button"><i class="fa-solid fa-calendar"></i>
+    </button>
+  </div>
+</div>
+
+
+<div class="container-fluid mt-3">
+  <div class="bg-light p-2">
+    {{counter}} <br>
+    <button (click)="increment()" class="btn btn-secondary">increment from parent</button>
+  </div>
+
+  <app-child-test [(counter)]="counter"></app-child-test>
+</div>

@@ -1,0 +1,37 @@
+<div class="container-fluid">
+
+  <div class="row row-cols-1">
+    <div class="col-12 text-end">
+      <button (click)="_appService.gotoBack()" class="btn btn-danger btn-sm" type="button">Back</button>
+    </div>
+
+    <div class="col-12">
+      <div class="row row-cols-1 g-3">
+        <div class="col-6">
+          <input #inputData class="form-control" placeholder="Enter Item" type="text">
+        </div>
+        <div class="col-6">
+          <button (click)="addItemsList1(inputData.value)" class="btn btn-success">Add Items</button>
+        </div>
+
+        <div class="col-6">
+          <ul class="list-group list-group-flush">
+            <li *ngFor="let item of itemList1" class="list-group-item">{{item}}</li>
+          </ul>
+        </div>
+
+
+        <div class="col-6">
+          <ul class="list-group list-group-flush">
+            <li *ngFor="let item of itemList2" class="list-group-item">{{item}}</li>
+          </ul>
+          <button (click)="subscribeList1()" [ngClass]="{'btn-success': !btnStatus, 'btn-danger':btnStatus}" class="btn"
+                  type="button">{{!btnStatus ? 'Subscribe' : 'Unsubscribe'}}
+            List 1
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,29 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      Create Product Name String
+    </div>
+
+    <div class="card-body">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <label>Enter Product Name</label>
+          <input type="text" [(ngModel)]="productName" class="form-control">
+        </div>
+      </div>
+
+      <div class="row mt-2 justify-content-center">
+        <div class="col-sm-6">
+          <button class="btn btn-primary" (click)="convertString()">Submit</button>
+        </div>
+      </div>
+
+      <div class="row mt-2 justify-content-center">
+        <div class="col-sm-6">
+          Create New Sequence Product Name:  {{seqNameString}}<br>
+          Units: {{inUnits}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

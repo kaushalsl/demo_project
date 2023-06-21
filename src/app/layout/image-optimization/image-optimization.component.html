@@ -1,0 +1,20 @@
+<div class="container-fluid">
+  <!--  <img ngSrc="https://via.placeholder.com/1000*1100"  width="1000" height="1100">-->
+
+  <!-- <img ngSrc="https://fakeimg.pl/1000x1100"  width="1000" height="1100" /><br>
+
+   <img ngSrc="https://fakeimg.pl/1000x800"  width="1000" height="800" /><br>
+
+
+   <img ngSrc="https://fakeimg.pl/1000x500"  width="1000" height="500" /><br>
+   <img ngSrc="https://fakeimg.pl/1000x400"  width="1000" height="400" /><br>
+   <img ngSrc="https://fakeimg.pl/1000x300"  width="1000" height="300" />-->
+
+  <p (clickEmitter)="actionClick($event)"
+     [color]="'red'"
+     appMerger>This is click and color merger Directive</p>
+
+  <!-- <ng-container *ngFor="let image of images; let i = index;">
+     <img [height]="image.height" [ngSrc]="image.name" [width]="image.width" alt="{{i}}" sizes="50vw">
+   </ng-container>-->
+</div>

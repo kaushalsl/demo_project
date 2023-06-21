@@ -1,0 +1,10 @@
+<div class="container-fluid">
+  <p>Country List</p>
+  <div *ngFor="let country of countries|async">
+    {{country.id}} {{country.name}}
+
+    <a [routerLink]="['details',country.id]"> Details</a>
+  </div>
+
+  <router-outlet></router-outlet>
+</div>

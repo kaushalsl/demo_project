@@ -1,0 +1,13 @@
+<div class="card">
+  <div class="card-header text-end">
+    <button (click)="_appService.gotoBack()" class="btn btn-danger btn-sm">
+      Back
+    </button>
+  </div>
+  <div class="card-body">
+    <form (ngSubmit)="onSubmit(form.value)" [formGroup]="form">
+      <formly-form [fields]="fields" [form]="form" [model]="model" [options]="options"></formly-form>
+      <!--  <button class="btn btn-primary" type="submit">Submit</button>-->
+    </form>
+  </div>
+</div>
