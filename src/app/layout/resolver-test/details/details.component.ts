@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {of} from 'rxjs';
 import {UserService} from '@servicesuser.service';
 
 @Component({

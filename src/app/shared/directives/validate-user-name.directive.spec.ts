@@ -1,4 +1,4 @@
-import { ValidateUserNameDirective } from './validate-user-name.directive';
+import {ValidateUserNameDirective} from './validate-user-name.directive';
 
 describe('ValidateUserNameDirective', () => {
   it('should create an instance', () => {

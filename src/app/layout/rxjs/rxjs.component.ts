@@ -1,21 +1,26 @@
 import {AfterContentChecked, AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {
   combineLatest,
-  debounceTime, defaultIfEmpty,
-  delay, distinctUntilChanged, exhaustMap,
-  filter, from,
+  debounceTime,
+  delay,
+  distinctUntilChanged,
+  exhaustMap,
+  filter,
+  from,
   fromEvent,
   interval,
-  map, mapTo, mergeAll, mergeMap, of, pipe,
-  retryWhen,
-  scan, startWith, Subject,
-  Subscription,
-  take, tap,
-  toArray
+  map,
+  mapTo,
+  mergeMap,
+  of,
+  scan,
+  startWith,
+  Subject,
+  Subscription
 } from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {ChildComponent} from './child/child.component';
-import {select, Store} from '@ngrx/store';
+import {Store} from '@ngrx/store';
 import {selectBooks} from './books.selector';
 import {invokeBooksAPI} from './book.action';
 import {Router} from '@angular/router';

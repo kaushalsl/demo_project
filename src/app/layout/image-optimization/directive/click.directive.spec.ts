@@ -1,4 +1,4 @@
-import { ClickDirective } from './click.directive';
+import {ClickDirective} from './click.directive';
 
 describe('ClickDirective', () => {
   it('should create an instance', () => {

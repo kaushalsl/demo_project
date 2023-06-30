@@ -1,5 +1,5 @@
-import {AfterContentChecked, Component, DoCheck, NgZone, OnInit} from '@angular/core';
-import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup} from '@angular/forms';
+import {Component, NgZone, OnInit} from '@angular/core';
+import {FormArray, FormBuilder, FormControl, FormGroup,} from '@angular/forms';
 import * as _ from 'lodash';
 
 @Component({
@@ -8,7 +8,7 @@ import * as _ from 'lodash';
   styleUrls: ['./zone.component.scss']
 })
 export class ZoneComponent implements OnInit {
-  public courseForm: UntypedFormGroup;
+  public courseForm: FormGroup;
   public counter: number = 0;
 
   public userInfo = [
@@ -82,13 +82,13 @@ export class ZoneComponent implements OnInit {
     }
   ];
 
-  constructor(private _formBuilder: UntypedFormBuilder, private zone: NgZone) {
+  constructor(private _formBuilder: FormBuilder, private zone: NgZone) {
     if (JSON.parse(<any>localStorage.getItem('userInfo')) !== null) {
       this.userInfo = JSON.parse(<any>localStorage.getItem('userInfo'));
     }
 
     this.courseForm = this._formBuilder.group({
-      courseArray: new UntypedFormArray([])
+      courseArray: new FormArray([])
     });
 
 
@@ -96,7 +96,7 @@ export class ZoneComponent implements OnInit {
   }
 
   get formArray() {
-    return this.courseForm.get('courseArray') as UntypedFormArray;
+    return this.courseForm.get('courseArray') as FormArray;
   }
 
   /*ngDoCheck() {
@@ -133,6 +133,6 @@ export class ZoneComponent implements OnInit {
   }
 
   private addCheckboxes() {
-    this.userInfo.forEach((value) => this.formArray.push(new UntypedFormControl(value.courseId)));
+    this.userInfo.forEach((value) => this.formArray.push(new FormControl(value.courseId)));
   }
 }

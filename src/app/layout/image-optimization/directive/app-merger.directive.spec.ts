@@ -1,4 +1,4 @@
-import { AppMergerDirective } from './app-merger.directive';
+import {AppMergerDirective} from './app-merger.directive';
 
 describe('AppMergerDirective', () => {
   it('should create an instance', () => {

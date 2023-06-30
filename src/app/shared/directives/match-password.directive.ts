@@ -1,5 +1,5 @@
 import {Directive, Input} from '@angular/core';
-import {NG_VALIDATORS, Validator, ValidationErrors, UntypedFormGroup} from '@angular/forms';
+import {NG_VALIDATORS, UntypedFormGroup, ValidationErrors, Validator} from '@angular/forms';
 import {CustomValidationService} from '../validation/custom-validation.service';
 
 @Directive({

@@ -11,11 +11,15 @@ $utilities: map-merge(
     ) // use type class name is for ex: cursor-auto, cursor-default pointer wait text move help not-allowed
 );
 @import "bootstrap/scss/bootstrap";
-@import 'font-awesome/css/font-awesome.css';
 @import "boxicons/css/boxicons.min.css";
 @import "@ng-select/ng-select/themes/default.theme.css";
 @import "assets/meanmenu/meanmenu.css";
+
 @import "@fortawesome/fontawesome-free/css/all.css";
+
+@import "primeng/resources/themes/bootstrap4-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
 
 .error-feedback {
   width: 100%;
@@ -60,6 +64,13 @@ ul {
 
 input, button:focus {
   box-shadow: none !important;
+}
+
+.btn-group-xs > .btn, .btn-xs {
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
 }
 
 /************************************************ Loading Spinner Start  ************************************************/
@@ -161,7 +172,7 @@ input, button:focus {
   }
 }
 
-.modal {
+.modalSpinner {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -176,4 +187,4 @@ input, button:focus {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-/************************************************ Loadin Spinner End  ************************************************/
+/************************************************ Loading Spinner End  ************************************************/

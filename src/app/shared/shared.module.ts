@@ -15,6 +15,10 @@ import {TestDirective} from '@shared/directives/test.directive';
 import {CountUpModule} from 'ngx-countup';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {CountDownDirective} from '@shared/directives/count-down.directive';
+import {AppRestrictionDirective} from '@servicesapp-restriction.directive';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {SearchNamePipe} from '@shared/pipe/search-name.pipe';
+import {ChipModule} from 'primeng/chip';
 
 export function showError(field: FieldType): any {
   return field.formControl && field.formControl.invalid && (field.formControl.dirty || field.formControl.touched || (field.options.parentForm && field.options.parentForm.submitted) || (field.field.validation && field.field.validation.show));
@@ -37,6 +41,9 @@ const module: any = [
   FormlyBootstrapModule,
   NgSelectModule,
   CountUpModule,
+  FormsModule,
+  ConfirmDialogModule,
+  ChipModule,
   FormlyModule.forRoot({
     extras: {showError},
     validationMessages: [
@@ -72,13 +79,19 @@ const directives: any = [
   MatchPasswordDirective,
   ValidateUserNameDirective,
   TestDirective,
-  CountDownDirective
+  CountDownDirective,
+  AppRestrictionDirective
+];
+
+const pipe: any = [
+  SearchNamePipe
 ];
 
 @NgModule({
   declarations: [
     ...component,
-    ...directives
+    ...directives,
+    ...pipe
   ],
   imports: [
     CommonModule,
@@ -89,7 +102,8 @@ const directives: any = [
   exports: [
     ...module,
     ...component,
-    ...directives
+    ...directives,
+    ...pipe
   ]
 })
 export class SharedModule {

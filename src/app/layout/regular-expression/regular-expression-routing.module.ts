@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { RegularExpressionComponent } from './regular-expression.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {RegularExpressionComponent} from './regular-expression.component';
 
 const routes: Routes = [{ path: '', component: RegularExpressionComponent }];
 

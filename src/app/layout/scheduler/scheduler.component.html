@@ -1,0 +1,265 @@
+<div class="container-fluid">
+  <div class="d-flex justify-content-between align-items-center">
+    <div class="alert alert-warning p-2 fw-bold">
+      Scheduler Demo
+    </div>
+
+    <div>
+      <button (click)="replaceOldData('show')" class="btn btn-primary" type="button">
+        <i class="fa fa-plus"></i> Create Appointment
+      </button>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered border-secondary m-0">
+      <thead class="text-center align-middle">
+      <tr class="table-active">
+        <th>Week Days</th>
+        <th>Morning</th>
+        <th>Noon</th>
+        <th>Evening</th>
+        <th>Night</th>
+        <th>Block Appointment</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let week of weekNoList; let i = index;">
+        <td class="text-center">{{week.label}}</td>
+        <ng-container *ngIf="!showTable || !checkWeekNoMatch(i+1)">
+          <td>NA</td>
+          <td>NA</td>
+          <td>NA</td>
+          <td>NA</td>
+          <td>NA</td>
+        </ng-container>
+
+        <ng-container *ngIf="showTable && checkWeekNoMatch(i+1)">
+          <td>
+            <ng-container *ngIf="printBookAppointmentSlot.morningTime.length === 0">NA</ng-container>
+            <p-chip *ngFor="let time of sorting(printBookAppointmentSlot.morningTime)" icon="pi pi-clock"
+                    label="{{time}}"
+                    styleClass="m-1 fs-small bgAppointment"></p-chip>
+          </td>
+
+          <td>
+            <ng-container *ngIf="printBookAppointmentSlot.noonTime.length === 0">NA</ng-container>
+            <p-chip *ngFor="let time of sorting(printBookAppointmentSlot.noonTime)" icon="pi pi-clock" label="{{time}}"
+                    styleClass="p-mr-1 m-1 fs-small bgAppointment"></p-chip>
+          </td>
+
+          <td>
+            <ng-container *ngIf="printBookAppointmentSlot.eveningTime.length === 0">NA</ng-container>
+            <p-chip *ngFor="let time of sorting(printBookAppointmentSlot.eveningTime)" icon="pi pi-clock"
+                    label="{{time}}"
+                    styleClass="p-mr-1 m-1 fs-small bgAppointment"></p-chip>
+          </td>
+
+          <td>
+            <ng-container *ngIf="printBookAppointmentSlot.nightTime.length === 0">NA</ng-container>
+            <p-chip *ngFor="let time of sorting(printBookAppointmentSlot.nightTime)" icon="pi pi-clock" label="{{time}}"
+                    styleClass="p-mr-1 m-1 fs-small bgAppointment"></p-chip>
+          </td>
+
+          <td>
+            <ng-container *ngIf="printBookAppointmentSlot.blockTime.length === 0">NA</ng-container>
+            <p-chip *ngFor="let time of sorting(printBookAppointmentSlot.blockTime)" icon="pi pi-clock" label="{{time}}"
+                    styleClass="p-mr-1 m-1 fs-small bgBlockAppointment"></p-chip>
+          </td>
+        </ng-container>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="schedulerModal">
+  <div class="modal-dialog modal-dialog-scrollable modal-fullscreen">
+    <div class="modal-content bg-light">
+      <div class="modal-header d-inline p-1 px-3">
+        <div class="row pb-1">
+          <div class="col-md-3 col-sm-4 col-4">
+            <label>Start Time</label>
+            <input [(ngModel)]="startTime" class="form-control form-control-sm" type="time">
+          </div>
+          <div class="col-md-3 col-sm-4 col-4">
+            <label>End Time</label>
+            <input [(ngModel)]="endTime" class="form-control form-control-sm" type="time">
+          </div>
+          <div class="col-md-3 col-sm-4 col-4">
+            <label>Set Minutes</label>
+            <input [(ngModel)]="setMinutes" class="form-control form-control-sm" type="text">
+          </div>
+          <div class="col-md-3 col-sm-4 col-4 mt-md-4 mt-1">
+            <button (click)="bookTimeSlot()" class="btn btn-primary btn-sm">
+              Submit
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="!isEmptyObject(this.finalTimeSlot)" class="row align-items-center">
+          <div class="col-md-3 col-sm-3 col-12">
+            <div class="form-check">
+              <label class="form-check-label">
+                <input (change)="selectAllAppointmentSlot($event)" [checked]="selectAll"
+                       class="form-check-input" type="checkbox">
+                Select All
+              </label>
+            </div>
+          </div>
+
+          <div class="col-md-9 col-sm-9 col-12 text-md-end">
+            <!--Print Days Array-->
+            <ng-container *ngFor="let week of weekNoList; let i = index;">
+              <label class="form-check-label">
+                <input (change)="bookAppointmentSlots($event,'weeks',week)" [checked]="week.isChecked" [value]="week.id"
+                       class="form-check-input"
+                       type="checkbox"/> {{week.label}}
+              </label> &nbsp;
+            </ng-container>
+            <button (click)="submit(this.timeSlotForm.value)" class="btn btn-success btn-sm" type="button">Book
+              Appointment
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-body pt-1">
+        <form *ngIf="!isEmptyObject(this.finalTimeSlot)" [formGroup]="timeSlotForm">
+          <div class="row g-1">
+            <div class="col-md-3 col-sm-6 col-6">
+              <div class="card h-100">
+                <div class="card-header text-center">
+                  Morning
+                </div>
+
+                <div class="card-body py-1 text-center">
+                  <div class="row pb-1">
+                    <div *ngFor="let time of finalTimeSlot.morningTime; let i = index;"
+                         class="mt-1 col-md-6 col-sm-6 col-12">
+                      <label>
+                        <i
+                          [ngClass]="time.isBlock ? 'fas fa-lock text-danger': time.isChecked ? 'far fa-calendar-check': 'fas fa-unlock-alt text-success'"></i>
+                        <input (change)="blockAppointmentSlots($event,time)" [checked]="time.isBlock"
+                               [disabled]="time.isChecked" [value]="time.time12"
+                               class="d-none" type="checkbox"/>
+                      </label>&nbsp;
+
+                      <input (change)="bookAppointmentSlots($event,'morningTime',time)"
+                             [checked]="time.isChecked || time.isBlock" [disabled]="time.isBlock"
+                             [value]="time.time12" class="btn-check" id="{{'morning'+i}}"
+                             type="checkbox">
+
+                      <label [class.btn-outline-danger]="time.isBlock" [class.btn-outline-success]="time.isChecked"
+                             class="btn btn-outline-secondary btn-sm shadow-none"
+                             for="{{'morning'+i}}">{{time.time12}}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 col-6">
+              <div class="card h-100">
+                <div class="card-header text-center">
+                  Noon
+                </div>
+
+                <div class="card-body p-1 text-center">
+                  <div class="row pb-1">
+                    <div *ngFor="let time of finalTimeSlot.noonTime; let i = index;"
+                         class="mt-1 col-md-6 col-sm-6 col-12">
+                      <label>
+                        <i
+                          [ngClass]="time.isBlock ? 'fas fa-lock text-danger': time.isChecked ? 'far fa-calendar-check':'fas fa-unlock-alt text-success'"></i>
+                        <input (change)="blockAppointmentSlots($event,time)" [checked]="time.isBlock"
+                               [disabled]="time.isChecked" [value]="time.time12"
+                               class="d-none" type="checkbox"/>
+                      </label>&nbsp;
+
+                      <input (change)="bookAppointmentSlots($event,'noonTime',time)"
+                             [checked]="time.isChecked || time.isBlock" [disabled]="time.isBlock"
+                             [value]="time.time12" class="btn-check" id="{{'noon'+i}}"
+                             type="checkbox">
+                      <label [class.btn-outline-danger]="time.isBlock" [class.btn-outline-success]="time.isChecked"
+                             class="btn btn-outline-secondary btn-sm shadow-none"
+                             for="{{'noon'+i}}">{{time.time12}}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 col-6">
+              <div class="card h-100">
+                <div class="card-header text-center">
+                  Evening
+                </div>
+
+                <div class="card-body py-1 text-center">
+                  <div class="row pb-1">
+                    <div *ngFor="let time of finalTimeSlot.eveningTime; let i = index;"
+                         class="mt-1 col-md-6 col-sm-6 col-12">
+                      <label>
+                        <i
+                          [ngClass]="time.isBlock ? 'fas fa-lock text-danger': time.isChecked ? 'far fa-calendar-check':'fas fa-unlock-alt text-success'"></i>
+                        <input (change)="blockAppointmentSlots($event,time)" [checked]="time.isBlock"
+                               [disabled]="time.isChecked" [value]="time.time12"
+                               class="d-none" type="checkbox"/>
+                      </label>&nbsp;
+
+                      <input (change)="bookAppointmentSlots($event,'eveningTime',time)"
+                             [checked]="time.isChecked || time.isBlock" [disabled]="time.isBlock"
+                             [value]="time.time12" class="btn-check" id="{{'evening'+i}}"
+                             type="checkbox">
+                      <label [class.btn-outline-danger]="time.isBlock" [class.btn-outline-success]="time.isChecked"
+                             class="btn btn-outline-secondary btn-sm shadow-none"
+                             for="{{'evening'+i}}">{{time.time12}}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 col-6">
+              <div class="card h-100">
+                <div class="card-header text-center">
+                  Night
+                </div>
+
+                <div class="card-body py-1 text-center">
+                  <div class="row pb-1">
+                    <div *ngFor="let time of finalTimeSlot.nightTime; let i = index;"
+                         class="mt-1 col-md-6 col-sm-6 col-12">
+                      <label>
+                        <i
+                          [ngClass]="time.isBlock ? 'fas fa-lock text-danger': time.isChecked ? 'far fa-calendar-check':'fas fa-unlock-alt text-success'"></i>
+                        <input (change)="blockAppointmentSlots($event,time)" [checked]="time.isBlock"
+                               [disabled]="time.isChecked" [value]="time.time12"
+                               class="d-none" type="checkbox"/>
+                      </label>&nbsp;
+
+                      <input (change)="bookAppointmentSlots($event,'nightTime',time)"
+                             [checked]="time.isChecked || time.isBlock" [disabled]="time.isBlock"
+                             [value]="time.time12" class="btn-check" id="{{'night'+i}}"
+                             type="checkbox">
+                      <label [class.btn-outline-danger]="time.isBlock" [class.btn-outline-success]="time.isChecked"
+                             class="btn btn-outline-secondary btn-sm shadow-none"
+                             for="{{'night'+i}}">{{time.time12}}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer p-1">
+        <button (click)="replaceOldData('hide')" class="btn btn-danger" type="button">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

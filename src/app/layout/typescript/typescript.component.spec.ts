@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { TypescriptComponent } from './typescript.component';
+import {TypescriptComponent} from './typescript.component';
 
 describe('TypescriptComponent', () => {
   let component: TypescriptComponent;

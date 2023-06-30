@@ -1,5 +1,5 @@
 import {Directive} from '@angular/core';
-import {NG_VALIDATORS, Validator, AbstractControl} from '@angular/forms';
+import {AbstractControl, NG_VALIDATORS, Validator} from '@angular/forms';
 import {CustomValidationService} from '../validation/custom-validation.service';
 
 @Directive({

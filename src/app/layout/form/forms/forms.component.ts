@@ -1,13 +1,5 @@
 import {AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
-import {
-  AbstractControl,
-  FormArray, FormControl, FormGroup,
-  UntypedFormArray,
-  UntypedFormBuilder,
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators
-} from '@angular/forms';
+import {AbstractControl, FormArray, FormControl, FormGroup, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {delay, distinctUntilChanged, Subject, tap} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {CountUpOptions} from 'countup.js';

@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RegularExpressionComponent } from './regular-expression.component';
+import {RegularExpressionComponent} from './regular-expression.component';
 
 describe('RegularExpressionComponent', () => {
   let component: RegularExpressionComponent;

@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { LodashjsComponent } from './lodashjs.component';
+import {LodashjsComponent} from './lodashjs.component';
 
 describe('LodashjsComponent', () => {
   let component: LodashjsComponent;

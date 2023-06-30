@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { RxjsOperatorRoutingModule } from './rxjs-operator-routing.module';
-import { RxjsOperatorComponent } from './rxjs-operator.component';
-import { SubjectReplyComponent } from './subject-reply/subject-reply.component';
+import {RxjsOperatorRoutingModule} from './rxjs-operator-routing.module';
+import {RxjsOperatorComponent} from './rxjs-operator.component';
+import {SubjectReplyComponent} from './subject-reply/subject-reply.component';
 
 
 @NgModule({

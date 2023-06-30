@@ -1,4 +1,4 @@
-import { MatchPasswordDirective } from './match-password.directive';
+import {MatchPasswordDirective} from './match-password.directive';
 
 describe('MatchPasswordDirective', () => {
   it('should create an instance', () => {

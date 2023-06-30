@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {Injector, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -9,6 +9,9 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {AppService} from "@servicesapp.service";
+
+export let AppInjector: Injector;
 
 @NgModule({
   declarations: [
@@ -24,8 +27,16 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
     SharedModule,
     NgbModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: 'app_service',
+      useValue: [AppService]
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
+  constructor(private injector: Injector) {
+    AppInjector = this.injector;
+  }
 }

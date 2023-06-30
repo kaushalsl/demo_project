@@ -60,8 +60,15 @@
           <a class="nav-link" routerLink="/resolverTest" routerLinkActive="active">Resolver </a>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/image-optimization" routerLinkActive="active">Img Opt. </a>
+        <li class="nav-item dropdown">
+          <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
+            Example List
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="/todo-list" routerLinkActive="active">Todo List</a></li>
+            <li><a class="dropdown-item" routerLink="/image-optimization" routerLinkActive="active">Img Opt.</a></li>
+            <li><a class="dropdown-item" routerLink="/scheduler" routerLinkActive="active">Scheduler</a></li>
+          </ul>
         </li>
       </ul>
     </div>

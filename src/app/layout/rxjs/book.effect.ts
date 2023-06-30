@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {select, Store} from '@ngrx/store';
-import {EMPTY, exhaustMap, map, mergeMap, switchMap, withLatestFrom} from 'rxjs';
+import {EMPTY, map, mergeMap, switchMap, withLatestFrom} from 'rxjs';
 import {booksFetchAPISuccess, invokeBooksAPI, invokeSaveBooksAPI, saveBooksAPISuccess} from './book.action';
 import {Books} from './books';
 import {selectBooks} from './books.selector';

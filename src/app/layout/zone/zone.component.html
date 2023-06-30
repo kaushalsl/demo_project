@@ -18,9 +18,9 @@
         <td>{{user.name}}</td>
         <td>
           <select [formControlName]="i" class="form-select form-select-sm">
-            <!--<option value="" selected disabled>Select Course</option>-->
+            <option value="" selected hidden="">Select Course</option>
             <option *ngFor="let course of courseInfo" [ngValue]="course.id">
-              {{course.name}} userCourse {{user.courseId}} courseInfo {{course.id}}
+             (course Id:  {{course.id}}) {{course.name}} (user course Id:  {{user.courseId}})
             </option>
           </select>
         </td>
@@ -32,6 +32,3 @@
     </table>
   </form>
 </div>
-
-
-

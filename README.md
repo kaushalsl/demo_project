@@ -1,17 +1,19 @@
 # Use Ngx Fomrly
 
-- npm i @angular/cdk
-- npm i bootstrap
-- npm i @angular/forms @ngx-formly/core @ngx-formly/bootstrap --save
+```
+ npm install @angular/cdk
+ npm install bootstrap
+ npm install @angular/forms @ngx-formly/core @ngx-formly/bootstrap --save
+```
 
 # Install Dependencies
 
-- npm i jquery
-- npm i @fortawesome/fontawesome-free
-- npm i @ng-select/ng-select
-- npm install @fullcalendar/angular @fullcalendar/core @fullcalendar/daygrid @fullcalendar/interaction
-  @fullcalendar/list @fullcalendar/timegrid
-- ng add @ng-bootstrap/ng-bootstrap
+```npm install jquery
+npm install @fortawesome/fontawesome-free
+npm install @ng-select/ng-select
+npm install @fullcalendar/angular @fullcalendar/core @fullcalendar/daygrid @fullcalendar/interaction @fullcalendar/list @fullcalendar/timegrid
+ng add @ng-bootstrap/ng-bootstrap
+```
 
 # NgRx Store Example
 
@@ -69,3 +71,6 @@ import * as _ from 'lodash';
 # Npm all countdown package
 
 - https://npms.io/search?q=angular-countdown
+
+
+npm install @grapecity/gcpdfviewer

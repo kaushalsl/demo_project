@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ImageOptimizationComponent } from './image-optimization.component';
+import {ImageOptimizationComponent} from './image-optimization.component';
 
 describe('ImageOptimizationComponent', () => {
   let component: ImageOptimizationComponent;

@@ -1,4 +1,4 @@
-import { CountDownDirective } from './count-down.directive';
+import {CountDownDirective} from './count-down.directive';
 
 describe('CountDownDirective', () => {
   it('should create an instance', () => {

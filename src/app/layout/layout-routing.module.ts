@@ -66,8 +66,12 @@ const routes: Routes = [
         path: 'rxjs',
         loadChildren: () => import('./rxjs/rxjs.module').then(m => m.RxjsModule)
       },
+      {path: 'todo-list', loadChildren: () => import('./todo-list/todo-list.module').then(m => m.TodoListModule)},
+      {path: 'scheduler', loadChildren: () => import('./scheduler/scheduler.module').then(m => m.SchedulerModule)},
     ]
   },
+
+
 ];
 
 @NgModule({

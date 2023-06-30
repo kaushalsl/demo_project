@@ -1,4 +1,4 @@
-import {Directive, ElementRef, HostListener, Input} from '@angular/core';
+import {Directive, ElementRef, Input} from '@angular/core';
 import {ColorDirective} from '@layout/image-optimization/directive/color.directive';
 import {ClickDirective} from '@layout/image-optimization/directive/click.directive';
 

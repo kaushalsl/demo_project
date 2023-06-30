@@ -12,6 +12,7 @@ export class AppService {
   public dataAPI: any = {};
   public passInterceptor = false;
   emitData = new ReplaySubject(4);
+  name = '';
 
   constructor(private http: HttpClient, private _location: Location) {
     this.dataAPI = {
@@ -25,6 +26,16 @@ export class AppService {
         return this.http.post<Books>('https://jsonplaceholder.typicode.com/posts', data);
       }
     };
+
+    this.setNames('set name')
+  }
+
+  setNames(name: string) {
+    this.name = name;
+  }
+
+  getName() {
+    return 'Kaushal Prajapati';
   }
 
   getAjaxMethod(url: any) {

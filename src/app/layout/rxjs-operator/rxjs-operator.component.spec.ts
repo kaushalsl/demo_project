@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RxjsOperatorComponent } from './rxjs-operator.component';
+import {RxjsOperatorComponent} from './rxjs-operator.component';
 
 describe('RxjsOperatorComponent', () => {
   let component: RxjsOperatorComponent;

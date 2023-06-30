@@ -8,7 +8,7 @@ declare var $: any;
   styleUrls: ['./component-binding.component.scss']
 })
 export class ComponentBindingComponent implements OnInit {
-  @Input() userId!: string; // this is url parameter passing value
+   userId!: string; // this is url parameter passing value
   @Input() title: any; // this is routing module data passing key value
   @Input() dummy_data: any; // this is getting resolver data in passing routing module ts file
 
