@@ -6,6 +6,9 @@
  npm install @angular/forms @ngx-formly/core @ngx-formly/bootstrap --save
 ```
 
+- npm install --save sweetalert2
+- npm i ngx-toastr
+
 # Install Dependencies
 
 ```npm install jquery
@@ -71,6 +74,5 @@ import * as _ from 'lodash';
 # Npm all countdown package
 
 - https://npms.io/search?q=angular-countdown
-
 
 npm install @grapecity/gcpdfviewer

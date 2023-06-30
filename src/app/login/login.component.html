@@ -1,0 +1,50 @@
+<div class="vh-100 d-flex justify-content-center align-items-center bg-light">
+  <div class="col-md-6 col-lg-4 col-sm-12 p-5 shadow-sm border rounded-3 bg-white">
+    <h2 class="text-center mb-4 text-primary">Login</h2>
+
+
+    <form (ngSubmit)="loggedIn(loginForm.value)" [formGroup]="loginForm">
+      <div class="mb-3">
+        <label class="form-label">Mobile No.</label>
+        <input class="form-control" formControlName="username" placeholder="Enter Mobile No." type="text">
+        <div class="error-feedback">
+          <ng-container *ngFor="let validation of validationMessage.mobile">
+            <div
+              *ngIf="f['username'].hasError(validation.type) && (f['username']['dirty'] || f['username']['touched'])">{{validation.message}}</div>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <div class="pin">
+          <input
+            [type]="_appService.passwordType" class="form-control" formControlName="password"
+            placeholder="Enter Password">
+          <i (click)='_appService.hideShowPassword()' [ngClass]="_appService.passwordIcon"
+             class="eye-icon fas cursor"></i>
+        </div>
+        <div class="error-feedback">
+          <ng-container *ngFor="let validation of validationMessage.password">
+            <div
+              *ngIf="f['password'].hasError(validation.type) && (f['password']['dirty'] || f['password']['touched'])">{{validation.message}}</div>
+          </ng-container>
+        </div>
+      </div>
+
+      <!--<p class="small"><a class="text-primary">Forgot password?</a></p>-->
+      <div class="btn-group">
+        <button [disabled]="loginForm.invalid || isAuthLoading" class="btn btn-primary" type="submit">
+          <span *ngIf="isAuthLoading" aria-hidden="true" class="spinner-border spinner-border-sm"
+                role="status"></span> Sign In
+        </button>
+      </div>
+    </form>
+
+    <div class="mt-3 text-center">
+      <a [routerLink]="['/']" class="text-primary fw-bold">
+        <i class="fa fa-arrow-circle-left"></i>
+        Back to Home</a>
+    </div>
+  </div>
+</div>

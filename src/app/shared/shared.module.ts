@@ -19,6 +19,7 @@ import {AppRestrictionDirective} from '@servicesapp-restriction.directive';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {SearchNamePipe} from '@shared/pipe/search-name.pipe';
 import {ChipModule} from 'primeng/chip';
+import {LoadingInterceptorComponent} from '@shared/components/loading-interceptor/loading-interceptor.component';
 
 export function showError(field: FieldType): any {
   return field.formControl && field.formControl.invalid && (field.formControl.dirty || field.formControl.touched || (field.options.parentForm && field.options.parentForm.submitted) || (field.field.validation && field.field.validation.show));
@@ -71,7 +72,8 @@ const module: any = [
 const component: any = [
   ButtonComponent,
   InputComponent,
-  NavbarComponent
+  NavbarComponent,
+  LoadingInterceptorComponent
 ];
 
 const directives: any = [

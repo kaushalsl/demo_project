@@ -1,8 +1,18 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {Injectable, Renderer2, RendererFactory2} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+import {HttpApiService} from '@services/http-api.service';
+import {FormGroup} from '@angular/forms';
+import * as _ from 'lodash';
+import {Location, DatePipe} from '@angular/common';
+import Swal from 'sweetalert2';
+import {CountUpOptions} from 'countup.js';
 import {ReplaySubject} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
 import {Books} from '@layout/rxjs/books';
-import {Location} from '@angular/common';
+import {ConfigService} from '@servicesconfig.service';
+
+declare var $: any;
 
 @Injectable({
   providedIn: 'root'
@@ -11,137 +21,309 @@ export class AppService {
   baseUrl = 'http://aca2021.patientinfo.in/';
   public dataAPI: any = {};
   public passInterceptor = false;
+  passwordIcon = '';
+  dataAPI: any = {};
   emitData = new ReplaySubject(4);
   name = '';
 
   constructor(private http: HttpClient, private _location: Location) {
+    private http: HttpClient,
+  ) {
+    this.renderer = this.rendererFactory.createRenderer(null, null);
+    this.setPasswordEyeIcon();
     this.dataAPI = {
-      login: (data: any) => {
-        return this.postAjaxMethod(this.baseUrl + 'api/Account/login', data);
-      },
       fetchBookAPI: () => {
         return this.http.get<Books[]>('https://jsonplaceholder.typicode.com/posts');
-      },
-      addBookAPI: (data: Books) => {
-        return this.http.post<Books>('https://jsonplaceholder.typicode.com/posts', data);
       }
     };
 
-    this.setNames('set name')
+  transformDate(startDate: any, endDate: any) {
+    return '\'' + this.datePipe.transform(startDate, 'yyyy_MM_dd') + '\' and \'' + this.datePipe.transform(endDate, 'yyyy_MM_dd') + '\'';
   }
 
   setNames(name: string) {
-    this.name = name;
+  closeRootLoading() {
+    let loader = this.renderer.selectRootElement('#preloader');
+    this.renderer.setStyle(loader, 'display', 'none');
   }
 
-  getName() {
-    return 'Kaushal Prajapati';
-  }
-
-  getAjaxMethod(url: any) {
-    return this.http.get(url);
-  }
-
-  postAjaxMethod(url: any, data: any) {
-    return this.http.post(url, data);
-  }
-
-  deleteAjaxMethod(srno: any) {
-    return this.http.delete(srno);
+  userName() {
+    this.user.name = this.userDetails() ? this.userDetails().name : '';
   }
 
   getToken() {
     return (this.userDetails()) ? `Bearer ${this.userDetails().token}` : '';
   }
 
+  getUserRole() {
+    return (this.userDetails()) ? this.userDetails().role.toLowerCase() : '';
+  }
+
+  userDetails() {
+    return JSON.parse(<any>localStorage.getItem('user-info'));
+  }
+
+  getToken() {
+  rootNavigation() {
+    // this.router.navigate(['/home']).then();
+    this.router.navigate(['/admin']).then();
+  }
+
   userDetails() {
     const data: any = localStorage.getItem('token');
     return JSON.parse(data);
+  pageNavigation(url: string) {
+    this.router.navigate([`${url}`]).then();
   }
 
-  dateIsoString(date: any) {
-    return new Date(date).toISOString();
   }
 
-  patternValidate() {
+  logout() {
+    localStorage.removeItem('user-info');
+
     return {
       'email': '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$',
       'mobile': '^[0-9]+$'
+      responsive: true,
+      scrollY: '55vh',
+      scrollCollapse: true,
     };
   }
 
   validationMsg() {
+    /*if ((sDate == null || eDate == null)) {
+    return {isError: false, errorMessage: ''};
+  }
+    window.open(`//${url}`, '_blank');
+    event.target.src = 'assets/images/noimage.png' + this.imgCacheClear();
+    // Do other stuff with the event.target
+  }
+
+  fileType() {
+    return {image: 'image', pdf: 'pdf'};
+  }
+
+  fileInputObject(type: string) {
+    const types: any = {
+      [this.fileType().image]: {
+        allowExtension: ['image/png', 'image/jpeg', 'image/jpg'],
+        errorMessage: 'Invalid image format, please select a valid image format',
+        size: 500,
+        sizeMessage: 'Image size should be less then 500kb'
+      },
+      [this.fileType().pdf]: {
+        allowExtension: ['application/pdf'],
+        errorMessage: 'Invalid pdf format, please select a valid pdf format',
+        size: 500,
+        sizeMessage: 'pdf size should be less then 500kb'
+      }
+    };
+    return types[type];
+  }
+
+  handleFileInput(event: any, fileType: string) {
+    return new Promise((resolve) => {
+      let imageObj: any = {
+        base64: '',
+        ext: '',
+        preview: ''
+      };
+
+      const file: File = event.target.files[0];
+      if (file) {
+        const allowed_types = this.fileInputObject(fileType).allowExtension;
+        if (!_.includes(allowed_types, file.type)) {
+          this.toastService('warning', this.fileInputObject(fileType).errorMessage);
+          resolve(imageObj);
+          return;
+        }
+
+        if (Math.round(file.size / 1000) > this.fileInputObject(fileType).size) {
+          this.toastService('warning', this.fileInputObject(fileType).sizeMessage);
+          resolve(imageObj);
+          return;
+        }
+      }
+
+      if (event.target.files && event.target.files[0]) {
+        let reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]); // read file as data url
+        reader.onload = (event: any) => {
+          if (event != undefined) {
+            imageObj = {
+              base64: this.replaceToBase64(event.target.result, fileType),
+              ext: ('.' + event.target.result.split(';')[0].split('/')[1]),
+              preview: event.target.result
+            };
+          }
+          resolve(imageObj);
+        };
+      }
+    });
+  }
+
+  handleWebCamImage(webcamImage: any) {
+    let imageObj: any = {
+      base64: '',
+      ext: '',
+      preview: ''
+    };
+    return new Promise((resolve) => {
+      imageObj = {
+        base64: this.replaceToBase64(webcamImage.imageAsDataUrl, this.fileType().image),
+        ext: ('.' + 'jpeg'),
+        preview: webcamImage.imageAsDataUrl
+      };
+      resolve(imageObj);
+    });
+  }
+
+  replaceToBase64(imageSrc: any, type: string) {
+    return (type === this.fileType().image) ? imageSrc.replace(/^data:image\/(png|jpg|jpeg);base64,/, '') : imageSrc.replace(/^data:application\/(pdf);base64,/, '');
+  }
+
+  imgCacheClear() {
+    return '?t=' + Math.random();
+  }
+
+  editImagePreview(dataObj: any, fileInputName: string, extName: string) {
+    return (dataObj[fileInputName + '_' + extName] ? `${this._httpService.baseUrl}${dataObj[fileInputName + '_' + extName]}` : this.defaultImage) + this.imgCacheClear();
+  }
+
+  editImagePreview1(dataObj: any, fileInputName: string) {
+    return (dataObj[fileInputName] ? `${this._httpService.baseUrl}${dataObj[fileInputName]}` : this.defaultImage) + this.imgCacheClear();
+  }
+
+  buildImageSrc(imageUrl: string) {
+    return `${this._httpService.baseUrl}${imageUrl}${this.imgCacheClear()}`;
+  }
+
+  checkImage(path: string) {
+    if (path === null || path === '') {
+      return '';
+    } else {
+      const ext = path.substring(path.lastIndexOf('.') + 1);
+      return (ext === '') ? '' : `.${ext}`;
+    }
+  }
+
+  statusMsg(formValue: any, msg: any) {
+    if (formValue.srno === 0) {
+      this.toastService('success', `${msg} Added Successfully.`);
+    } else {
+      this.toastService('info', `${msg} Updated Successfully.`);
+    }
+  }
+
+  toastService(status: string, msg: string) {
+    this._toast.clear();
+    const obj: any = {
+      timeOut: 2000,
+      positionClass: 'toast-top-center',
+      preventDuplicates: false
+    };
+    if (status === 'success') {
+      this._toast.success(msg, '', obj);
+    } else if (status === 'error') {
+      this._toast.error(msg, '', obj);
+    } else if (status === 'info') {
+      this._toast.info(msg, '', obj);
+    } else if (status === 'warning') {
+      this._toast.warning(msg, '', obj);
+    }
+  }
+
+  sweetAlertModal(message: string) {
+    Swal.fire({title: message, allowOutsideClick: false});
+  }
+
+
+  sweetAlertToast() {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      }
+    });
+
+    Toast.fire({
+      icon: 'success',
+      title: 'Signed in successfully'
+    });
+  }
+
+  apiCallReqError() {
+    /*this._toast.close();
+    // this.closeRootLoading();
+    this._toast.error('Something Went Wrong....', {
+      duration: 2000,
+      position: 'top-right'
+    });*/
+  }
+
+  apiResponseFalse(res: any) {
+    this._toast.clear();
+    this.toastService('warning', res.message);
+  }
+
+  isEmptyObject(value: any) {
+    return Object.keys(value).length === 0 && value.constructor === Object;
+  }
+
+  isObject(value: any) {
+    return (typeof value === 'object' && value !== null && !Array.isArray(value));
+  }
+
+  destroyModal(id: any) {
+    $('#' + id).modal('hide');
+  }
+
+  openModal(id: any) {
+    $('#' + id).modal({keyboard: false, backdrop: 'static'}).modal('show');
+  }
+
+  markFormGroupTouched(formGroup: FormGroup) {
+    (<any>Object).values(formGroup.controls).forEach((control: any) => {
+      control.markAsTouched();
+
+      if (control.controls) {
+        this.markFormGroupTouched(control);
+      }
+    });
+  }
+
+  slideConfig() {
     return {
-      'mobile': [
-        {type: 'required', message: 'Mobile is required.'},
-        {type: 'minlength', message: 'Enter 10 Digit Mobile Number.'},
-        {type: 'maxlength', message: 'Mobile cannot be more than 25 characters long.'},
-        {type: 'pattern', message: 'Your Mobile must contain only numbers.'},
-        {type: 'validMobile', message: 'Your Mobile has already been taken.'}
-      ],
-      'pin': [
-        {type: 'required', message: 'PIN required.'}
-      ],
-      'name': [
-        {type: 'required', message: 'Name is required.'},
-        {type: 'userNameNotAvailable', message: 'Name is not available.'}
-      ],
-      'address': [
-        {type: 'required', message: 'Address is required.'}
-      ],
-      'city': [
-        {type: 'required', message: 'City is required.'}
-      ],
-      'zipCode': [
-        {type: 'required', message: 'Zipcode is required.'},
-        {type: 'pattern', message: 'Your Zipcode must contain only numbers.'},
-      ],
-      'email': [
-        {type: 'required', message: 'Email is required.'},
-        {type: 'pattern', message: 'Enter Email is invalid.'}
-      ],
-      'selection': [
-        {type: 'required', message: 'Select any one.'},
-      ],
-      'number': [
-        {type: 'required', message: 'required.'},
-        {type: 'pattern', message: 'Enter only numeric.'}
-      ],
-      'typeNumber': [
-        {type: 'required', message: 'required.'},
-        {type: 'pattern', message: 'Enter only numeric.'},
-        {type: 'min', message: 'Minimum Enter Value 1'},
-        {type: 'max', message: 'Maximum Enter Value 20'}
-      ],
-      'captcha': [
-        {type: 'required', message: 'Captcha required.'},
-        {type: 'pattern', message: 'Enter only numeric.'},
-        {type: 'min', message: 'Minimum Enter Value 1'},
-        {type: 'max', message: 'Maximum Enter Value 20'}
-      ],
-      'common': [
-        {type: 'required', message: 'required.'}
-      ],
-      'password': [
-        {type: 'required', message: 'password is required.'},
-        {type: 'minlength', message: 'password length.'},
-        {type: 'maxlength', message: 'password length.'}
-      ],
-      'confirmPassword': [
-        {type: 'required', message: 'Confirm password is required.'},
-        {type: 'minlength', message: 'Confirm password length.'},
-        {type: 'maxlength', message: 'Confirm password length.'},
-        {type: 'matching', message: 'password and Confirm Password does not Match.'},
-        {type: 'passwordMismatch', message: 'password and Confirm Password does not Match.'}
-      ]
+      // autoplay: true,
+      autoplaySpeed: 3000,
+      arrows: true,
+      // fade: true,
+      cssEase: 'linear',
+      slidesToShow: 1,
+      // adaptiveHeight: true,
     };
   }
 
-  testAPI() {
-    return this.getAjaxMethod('https://jsonplaceholder.typicode.com/albums');
+  getRandomIntBetween(min: any, max: any) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  gotoBack() {
-    this._location.back();
+  // below function is used to show or hide the password text with the help of eye icon in the enter password.
+  hideShowPassword() {
+    this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
+    this.passwordIcon = this.passwordIcon === 'fa-eye-slash' ? 'fa-eye' : 'fa-eye-slash';
   }
+
+  setPasswordEyeIcon() {
+    this.passwordType = 'password';
+    this.passwordIcon = 'fa-eye-slash';
+  }
+
 }

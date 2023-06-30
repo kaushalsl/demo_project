@@ -21,6 +21,9 @@ $utilities: map-merge(
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
 
+/*Ngx toastr Css*/
+@import 'ngx-toastr/toastr-bs5-alert';
+
 .error-feedback {
   width: 100%;
   margin-top: 0.25rem;
@@ -72,6 +75,24 @@ input, button:focus {
   line-height: 1.5;
   border-radius: 3px;
 }
+
+/* Start Eye icon*/
+.pin {
+  position: relative;
+}
+
+.pin .eye-icon {
+  position: absolute;
+  top: 50%;
+  right: 3%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  z-index: 99999999;
+  font-size: 20px !important;
+}
+
+/*End*/
 
 /************************************************ Loading Spinner Start  ************************************************/
 

@@ -1,4 +1,4 @@
-import {Injector, NgModule} from '@angular/core';
+import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -9,7 +9,13 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
-import {AppService} from "@servicesapp.service";
+import {AppService} from '@servicesapp.service';
+import {ToastrModule} from 'ngx-toastr';
+import {ConfigService} from '@servicesconfig.service';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {AuthInterceptor} from '@shared/guard/auth.inteceptor';
+import {LoaderInterceptor} from '@shared/guard/loader-interceptor.service';
+import {DatePipe} from '@angular/common';
 
 export let AppInjector: Injector;
 
@@ -21,6 +27,7 @@ export let AppInjector: Injector;
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    ToastrModule.forRoot(),
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot(),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: false}),
@@ -28,10 +35,19 @@ export let AppInjector: Injector;
     NgbModule
   ],
   providers: [
-    {
-      provide: 'app_service',
-      useValue: [AppService]
-    }
+    DatePipe,
+    /* [{
+       provide: APP_INITIALIZER,
+       deps: [ConfigService],
+       useFactory: (configService: ConfigService) => {
+         return () => {
+           return configService.load();
+         };
+       },
+       multi: true
+     }],
+     [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
+     [{provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true}],*/
   ],
   bootstrap: [AppComponent]
 })
