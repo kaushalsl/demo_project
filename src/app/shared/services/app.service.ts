@@ -18,15 +18,33 @@ declare var $: any;
   providedIn: 'root'
 })
 export class AppService {
-  baseUrl = 'http://aca2021.patientinfo.in/';
-  public dataAPI: any = {};
-  public passInterceptor = false;
+  user: any = {
+    picture: 'assets/images/default-profile.png',
+    name: ''
+  };
+  defaultImage = 'assets/images/upload.png';
+  renderer: Renderer2;
+  passwordType = '';
   passwordIcon = '';
   dataAPI: any = {};
   emitData = new ReplaySubject(4);
   name = '';
+  appConfig: any = this.configService.configuration;
+  countOptions: CountUpOptions = {
+    duration: 4,
+    scrollSpyOnce: false,
+    enableScrollSpy: false
+  };
 
-  constructor(private http: HttpClient, private _location: Location) {
+  constructor(
+    private configService: ConfigService,
+    private activatedRoute: ActivatedRoute,
+    private rendererFactory: RendererFactory2,
+    private _httpService: HttpApiService,
+    private _location: Location,
+    private _toast: ToastrService,
+    private router: Router,
+    private datePipe: DatePipe,
     private http: HttpClient,
   ) {
     this.renderer = this.rendererFactory.createRenderer(null, null);
@@ -36,12 +54,12 @@ export class AppService {
         return this.http.get<Books[]>('https://jsonplaceholder.typicode.com/posts');
       }
     };
+  }
 
   transformDate(startDate: any, endDate: any) {
     return '\'' + this.datePipe.transform(startDate, 'yyyy_MM_dd') + '\' and \'' + this.datePipe.transform(endDate, 'yyyy_MM_dd') + '\'';
   }
 
-  setNames(name: string) {
   closeRootLoading() {
     let loader = this.renderer.selectRootElement('#preloader');
     this.renderer.setStyle(loader, 'display', 'none');
@@ -63,38 +81,134 @@ export class AppService {
     return JSON.parse(<any>localStorage.getItem('user-info'));
   }
 
-  getToken() {
   rootNavigation() {
     // this.router.navigate(['/home']).then();
     this.router.navigate(['/admin']).then();
   }
 
-  userDetails() {
-    const data: any = localStorage.getItem('token');
-    return JSON.parse(data);
   pageNavigation(url: string) {
     this.router.navigate([`${url}`]).then();
   }
 
+  gotoBack() {
+    this._location.back();
   }
 
   logout() {
     localStorage.removeItem('user-info');
+  }
 
+  dataTableOptions() {
     return {
-      'email': '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$',
-      'mobile': '^[0-9]+$'
+      info: false,
+      paging: false,
+      searching: false,
+      lengthMenu: [[-1, 5, 10], ['All', 5, 10]],
+      order: [],
+      bSort: false,
+      fixedHeader: true,
       responsive: true,
       scrollY: '55vh',
       scrollCollapse: true,
+      scrollX: true
     };
   }
 
-  validationMsg() {
+  dateFormatWithDot(date: any) {
+    const d = (date) ? new Date(date) : new Date();
+    return [
+      ('0' + d.getDate()).slice(-2),
+      ('0' + (d.getMonth() + 1)).slice(-2),
+      d.getFullYear(),
+    ].join('.');
+  }
+
+  dateFormatDDMMYY(date: any) {
+    const d = (date) ? new Date(date) : new Date();
+    return [
+      ('0' + d.getDate()).slice(-2),
+      ('0' + (d.getMonth() + 1)).slice(-2),
+      d.getFullYear(),
+    ].join('-');
+  }
+
+  dateFormatYYMMDD(date: any) {
+    const d = (date) ? new Date(date) : new Date();
+    return [
+      d.getFullYear(),
+      ('0' + (d.getMonth() + 1)).slice(-2),
+      ('0' + d.getDate()).slice(-2),
+    ].join('-');
+  }
+
+  dateIsoString(dateString: any) {
+    // const [day, month, year] = dateString.split('-');
+    return new Date(dateString).toISOString();
+  }
+
+  convertOriginalDateFormat(date: any) {
+    return date.split('-').reverse().join('-');
+  }
+
+  tConvert12(time: any) {
+    // Check a correct time format and split into component
+    time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+    if (time.length > 1) { // If a time format corrects
+      time = time.slice(1);  // Remove full string match value
+      time[5] = +time[0] < 12 ? ' AM' : ' PM'; // Set AM/PM
+      time[0] = +time[0] % 12 || 12; // Adjust hours
+    }
+    return time.join(''); // return adjusted time or original string
+  }
+
+  tConvert24(timeStr: any) {
+    const [time, modifier] = timeStr.split(' ');
+    let [hours, minutes] = time.split(':');
+    if (hours === '12') {
+      hours = '00';
+    }
+    if (modifier === 'PM') {
+      hours = parseInt(hours, 10) + 12;
+    }
+    return `${hours}:${minutes}`;
+  }
+
+  startEndTimeCompare(startTime: any, endTime: any) {
+    let timeFrom = new Date();
+    let temp = startTime.split(':');
+    timeFrom.setHours((parseInt(temp[0]) - 1 + 24) % 24);
+    timeFrom.setMinutes(parseInt(temp[1]));
+
+    let timeTo = new Date();
+    temp = endTime.split(':');
+    timeTo.setHours((parseInt(temp[0]) - 1 + 24) % 24);
+    timeTo.setMinutes(parseInt(temp[1]));
+
+    const status = timeTo < timeFrom;
+    if (status) {
+      this.toastService('warning', 'open time should be smaller than close time!');
+    }
+    return status;
+  }
+
+  validateDates(sDate: string, eDate: string) {
     /*if ((sDate == null || eDate == null)) {
+      return {isError: true, errorMessage: 'Start date and end date are required.'};
+    }*/
+
+    if ((sDate != null && eDate != null) && (eDate) < (sDate)) {
+      return {isError: true, errorMessage: 'End date should be grater then start date.'};
+    }
+
     return {isError: false, errorMessage: ''};
   }
+
+  openLinkNewWindow(url: string) {
     window.open(`//${url}`, '_blank');
+  }
+
+  onImgError(event: any): any {
     event.target.src = 'assets/images/noimage.png' + this.imgCacheClear();
     // Do other stuff with the event.target
   }
