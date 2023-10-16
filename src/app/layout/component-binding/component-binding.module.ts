@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 
 import {ComponentBindingRoutingModule} from './component-binding-routing.module';
 import {ComponentBindingComponent} from './component-binding.component';
+import {SharedModule} from '@shared/shared.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import {ComponentBindingComponent} from './component-binding.component';
   ],
   imports: [
     CommonModule,
-    ComponentBindingRoutingModule
+    ComponentBindingRoutingModule,
+    SharedModule,
   ]
 })
 export class ComponentBindingModule {

@@ -1,4 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+
+declare var $: any;
 
 @Component({
   selector: 'app-medicine',
@@ -12,7 +15,7 @@ export class MedicineComponent implements OnInit {
   public productName: any = 'TESTOSPRAY 12.5 MG SPRAY 120 MDI';
   public seqNameString: any;
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnInit(): void {
@@ -242,5 +245,10 @@ export class MedicineComponent implements OnInit {
       units: units,
       type: type
     };
+  }
+
+  openModal() {
+    const hash = window.location.hash;
+    $(hash).modal('toggle');
   }
 }

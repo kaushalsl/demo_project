@@ -1,5 +1,5 @@
 import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
+import {BrowserModule, provideClientHydration} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -16,6 +16,8 @@ import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {AuthInterceptor} from '@shared/guard/auth.inteceptor';
 import {LoaderInterceptor} from '@shared/guard/loader-interceptor.service';
 import {DatePipe} from '@angular/common';
+import {CanDeactivateGuard} from '@shared/guard/can-deactivate-guard.service';
+import {BackButtonDisableModule} from 'angular-disable-browser-back-button';
 
 export let AppInjector: Injector;
 
@@ -32,10 +34,13 @@ export let AppInjector: Injector;
     EffectsModule.forRoot(),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: false}),
     SharedModule,
-    NgbModule
+    NgbModule,
+    // BackButtonDisableModule.forRoot()
   ],
   providers: [
     DatePipe,
+    provideClientHydration(),
+    CanDeactivateGuard
     /* [{
        provide: APP_INITIALIZER,
        deps: [ConfigService],

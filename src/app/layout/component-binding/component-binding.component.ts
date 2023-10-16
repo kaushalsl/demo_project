@@ -1,4 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {FormControl, FormGroup} from '@angular/forms';
+import {AutoCompleteCompleteEvent} from 'primeng/autocomplete';
 
 declare var $: any;
 
@@ -8,14 +10,23 @@ declare var $: any;
   styleUrls: ['./component-binding.component.scss']
 })
 export class ComponentBindingComponent implements OnInit {
-   userId!: string; // this is url parameter passing value
+  userId!: string; // this is url parameter passing value
   @Input() title: any; // this is routing module data passing key value
   @Input() dummy_data: any; // this is getting resolver data in passing routing module ts file
 
   images: string[] = [];
+  testForm!: FormGroup;
+  selectedItem: any;
+
+  fillDataObj: any = {
+    item1: '',
+    item2: ''
+  };
 
   constructor() {
-
+    this.testForm = new FormGroup({
+      test: new FormControl('')
+    });
   }
 
   ngOnInit() {
@@ -48,5 +59,26 @@ export class ComponentBindingComponent implements OnInit {
         reject('not match value');
       }
     });
+  }
+
+  setValueForm() {
+    this.testForm.patchValue({
+      test: '17'
+    });
+    console.log(this.testForm.value);
+  }
+
+  search(event: AutoCompleteCompleteEvent, filedName: string) {
+    this.fillDataObj[filedName] = event.query;
+    console.log(event.query);
+    console.log(this.selectedItem);
+    console.log(this.fillDataObj);
+    // this.suggestions = [...Array(10).keys()].map(item => event.query + '-' + item);
+  }
+
+  clearData() {
+    console.log('clear call');
+    this.selectedItem = this.selectedItem || 'NA';
+    console.log(this.selectedItem);
   }
 }

@@ -20,6 +20,8 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {SearchNamePipe} from '@shared/pipe/search-name.pipe';
 import {ChipModule} from 'primeng/chip';
 import {LoadingInterceptorComponent} from '@shared/components/loading-interceptor/loading-interceptor.component';
+import {ColorPickerModule} from 'primeng/colorpicker';
+import {AutoCompleteModule} from 'primeng/autocomplete';
 
 export function showError(field: FieldType): any {
   return field.formControl && field.formControl.invalid && (field.formControl.dirty || field.formControl.touched || (field.options.parentForm && field.options.parentForm.submitted) || (field.field.validation && field.field.validation.show));
@@ -45,6 +47,8 @@ const module: any = [
   FormsModule,
   ConfirmDialogModule,
   ChipModule,
+  ColorPickerModule,
+  AutoCompleteModule,
   FormlyModule.forRoot({
     extras: {showError},
     validationMessages: [

@@ -4,7 +4,20 @@ Title: {{title}}
 <br>
 Dummy Data: {{dummy_data}}
 
+<button (click)="setValueForm()" class="btn btn-primary btn-xs">Patch</button>
+
+<form [formGroup]="testForm">
+  <select formControlName="test">
+    <option hidden="" selected value="">Select Option</option>
+    <option *ngFor="let i of [1,2,3,4,5,6]">{{i}}</option>
+  </select>
+</form>
+
+<p-autoComplete (completeMethod)="search($event, 'item1')" (onClear)="clearData()" [(ngModel)]="selectedItem"
+                [delay]="1000"></p-autoComplete>
+<!--<p-autoComplete (completeMethod)="search($event, 'item2')" [(ngModel)]="selectedItem" [delay]="1000"></p-autoComplete>-->
 
 <div *ngFor="let image of images" [innerHTML]="image">
 </div>
+
 

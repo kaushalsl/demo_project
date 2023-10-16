@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {LayoutComponent} from './layout.component';
 import {dummyDataResolver} from '@shared/resolver/dummy-data.resolver';
+import {componentBinding, form, signals} from '@shared/metaKeyWords';
 
 const routes: Routes = [
   {
@@ -10,13 +11,15 @@ const routes: Routes = [
     children: [
       {path: '', redirectTo: 'form', pathMatch: 'prefix'},
       {path: 'form', loadChildren: () => import('./form/form.module').then(m => m.FormModule)},
-      {path: 'signals', loadChildren: () => import('./signals/signals.module').then(m => m.SignalsModule)},
+      {
+        path: 'signals',
+        loadChildren: () => import('./signals/signals.module').then(m => m.SignalsModule),
+        data: signals
+      },
       {
         path: 'component-binding/:userId',
         loadChildren: () => import('./component-binding/component-binding.module').then(m => m.ComponentBindingModule),
-        data: {
-          title: 'Component Binding'
-        },
+        data: componentBinding,
         resolve: {
           /* dummy_data: (route: ActivatedRouteSnapshot, state: RouterStateSnapshot, router: Router) => {
              if (localStorage.getItem('token') === null) {

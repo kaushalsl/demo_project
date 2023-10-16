@@ -8,13 +8,13 @@
       <div class="row justify-content-center">
         <div class="col-md-6">
           <label>Enter Product Name</label>
-          <input type="text" [(ngModel)]="productName" class="form-control">
+          <input [(ngModel)]="productName" class="form-control" type="text">
         </div>
       </div>
 
       <div class="row mt-2 justify-content-center">
         <div class="col-sm-6">
-          <button class="btn btn-primary" (click)="convertString()">Submit</button>
+          <button (click)="convertString()" class="btn btn-primary">Submit</button>
         </div>
       </div>
 
@@ -22,6 +22,30 @@
         <div class="col-sm-6">
           Create New Sequence Product Name:  {{seqNameString}}<br>
           Units: {{inUnits}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Button trigger modal -->
+  <a (click)="openModal()" class="btn btn-primary" data-bs-toggle="modal" type="button">
+    Launch demo modal
+  </a>
+
+  <!-- Modal -->
+  <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="exampleModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+          <button class="btn btn-primary" type="button">Save changes</button>
         </div>
       </div>
     </div>

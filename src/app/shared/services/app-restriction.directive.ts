@@ -1,12 +1,14 @@
-import {Directive, ElementRef, HostBinding, Renderer2} from '@angular/core';
+import {Directive, ElementRef, HostBinding, Inject, PLATFORM_ID, Renderer2} from '@angular/core';
 
 @Directive({
   selector: '[appRestriction]'
 })
 export class AppRestrictionDirective {
-  constructor(private el: ElementRef, private renderer: Renderer2) {
+  platformId!: Object;
+
+  constructor(private el: ElementRef, private renderer: Renderer2, @Inject(PLATFORM_ID) platformId: Object) {
     //Prevent Ctrl+S (and Ctrl+W for old browsers and Edge)
-    document.onkeydown = function (e: any) {
+    /*document.onkeydown = function (e: any) {
       e = e || window.event;//Get event
       if (!e.ctrlKey) return;
       const code = e.which || e.keyCode;//Get key code
@@ -18,7 +20,7 @@ export class AppRestrictionDirective {
           e.stopPropagation();
           break;
       }
-    };
+    };*/
 
     // remove below to use cut copy paste code enable
     /*const events = ['cut', 'copy', 'paste', 'contextmenu'];

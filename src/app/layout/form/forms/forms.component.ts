@@ -38,7 +38,7 @@ export class FormsComponent implements OnInit, AfterViewInit {
     scrollSpyOnce: true,
     enableScrollSpy: true
   };
-
+  color = '#fff';
   @ViewChild('counter') counter!: ElementRef;
   param = 0;
   protected readonly validationMessage = validationMessage;
